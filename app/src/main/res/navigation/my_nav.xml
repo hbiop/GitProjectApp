@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav"
+    app:startDestination="@id/authFragment">
+
+    <fragment
+        android:id="@+id/authFragment"
+        android:name="com.example.gitprojectapp.fragments.AuthFragment"
+        android:label="fragment_auth"
+        tools:layout="@layout/fragment_auth" >
+        <action
+            android:id="@+id/action_authFragment_to_spisokRepositorievFragment"
+            app:destination="@id/spisokRepositorievFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/spisokRepositorievFragment"
+        android:name="com.example.gitprojectapp.fragments.SpisokRepositorievFragment"
+        android:label="fragment_spisok_repositoriev"
+        tools:layout="@layout/fragment_spisok_repositoriev" >
+        <action
+            android:id="@+id/action_spisokRepositorievFragment_to_repositoryInfo"
+            app:destination="@id/repositoryInfo" />
+    </fragment>
+    <fragment
+        android:id="@+id/repositoryInfo"
+        android:name="com.example.gitprojectapp.RepositoryInfo"
+        android:label="fragment_repository_info"
+        tools:layout="@layout/fragment_repository_info" />
+</navigation>
