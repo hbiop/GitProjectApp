@@ -42,7 +42,7 @@ class SpisokRepositorievFragment : Fragment() {
             val adapter = MyAdapter(it, object : OnItemClickListener {
                 override fun onItemClick(position: Int) {
                     Navigation.findNavController(view)
-                        .navigate(R.id.action_spisokRepositorievFragment_to_repositoryInfo)
+                        .navigate(R.id.action_spisokRepositorievFragment_to_repositoryInfo, RepositoryInfo.createArguments(userIdKey = position))
                 }
             })
             recyclerView.adapter = adapter

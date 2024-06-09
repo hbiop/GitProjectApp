@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/repositoryInfo"
-        android:name="com.example.gitprojectapp.RepositoryInfo"
+        android:name="com.example.gitprojectapp.fragments.RepositoryInfo"
         android:label="fragment_repository_info"
         tools:layout="@layout/fragment_repository_info" />
 </navigation>
