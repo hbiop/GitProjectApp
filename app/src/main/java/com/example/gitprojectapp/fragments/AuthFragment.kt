@@ -43,7 +43,7 @@ class AuthFragment : Fragment() {
                     if (editor != null) {
                         editor.remove("token")
                         editor.apply()
-                        editor.putString("token", /*binding.edToken.text.toString()*/"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")
+                        editor.putString("token", binding.edToken.text.toString())
                         editor.apply()
                     }
 
