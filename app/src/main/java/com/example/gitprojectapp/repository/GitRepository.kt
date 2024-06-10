@@ -14,7 +14,7 @@ class GitRepository(private val apiInterface: ApiInterface, private val token:St
         get() = responseResult
 
     suspend fun getGit(){
-        val result = apiInterface.getRepos(/*"Bearer " + token*/"Bearer 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")
+        val result = apiInterface.getRepos("Bearer " + token)
         responseResult.postValue(result.isSuccessful)
         if(result.body() != null){
             gitLiveData.postValue(result.body())
