@@ -1,4 +1,4 @@
-package com.example.gitprojectapp.fragments
+package com.example.gitprojectapp.presentation.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -11,14 +11,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.gitprojectapp.R
-import com.example.gitprojectapp.api.ApiInterface
-import com.example.gitprojectapp.api.ApiUtilities
+import com.example.gitprojectapp.data.api.ApiInterface
+import com.example.gitprojectapp.data.api.ApiUtilities
 import com.example.gitprojectapp.databinding.FragmentRepositoryInfoBinding
-import com.example.gitprojectapp.recycler_view.MyAdapter
-import com.example.gitprojectapp.recycler_view.OnItemClickListener
-import com.example.gitprojectapp.repository.GitRepository
-import com.example.gitprojectapp.viewmodel.GitViewModel
-import com.example.gitprojectapp.viewmodel.GitViewModelFactory
+import com.example.gitprojectapp.presentation.recycler_view.MyAdapter
+import com.example.gitprojectapp.presentation.recycler_view.OnItemClickListener
+import com.example.gitprojectapp.other.repository.GitRepository
+import com.example.gitprojectapp.presentation.viewmodel.GitViewModel
+import com.example.gitprojectapp.presentation.viewmodel.GitViewModelFactory
 
 
 class RepositoryInfo : Fragment() {

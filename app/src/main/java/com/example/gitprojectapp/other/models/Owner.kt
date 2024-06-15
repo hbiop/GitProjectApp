@@ -1,4 +1,4 @@
-package com.example.gitprojectapp.models
+package com.example.gitprojectapp.other.models
 
 data class Owner(
     val avatar_url: String,

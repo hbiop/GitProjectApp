@@ -1,6 +1,6 @@
-package com.example.gitprojectapp.api
+package com.example.gitprojectapp.data.api
 
-import com.example.gitprojectapp.models.Repository
+import com.example.gitprojectapp.other.models.Repository
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header

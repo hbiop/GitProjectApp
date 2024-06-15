@@ -1,9 +1,9 @@
-package com.example.gitprojectapp.repository
+package com.example.gitprojectapp.other.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.gitprojectapp.api.ApiInterface
-import com.example.gitprojectapp.models.Repository
+import com.example.gitprojectapp.data.api.ApiInterface
+import com.example.gitprojectapp.other.models.Repository
 
 class GitRepository(private val apiInterface: ApiInterface, private val token:String) {
     private val gitLiveData = MutableLiveData<Repository>()

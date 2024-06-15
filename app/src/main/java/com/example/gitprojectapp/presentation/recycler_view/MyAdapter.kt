@@ -1,11 +1,11 @@
-package com.example.gitprojectapp.recycler_view
+package com.example.gitprojectapp.presentation.recycler_view
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gitprojectapp.databinding.ItemBinding
-import com.example.gitprojectapp.models.Repository
+import com.example.gitprojectapp.other.models.Repository
 
 class MyAdapter(private val data: Repository, private val listener: OnItemClickListener) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

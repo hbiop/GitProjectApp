@@ -1,4 +1,4 @@
-package com.example.gitprojectapp.fragments
+package com.example.gitprojectapp.presentation.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -10,14 +10,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gitprojectapp.R
-import com.example.gitprojectapp.api.ApiInterface
-import com.example.gitprojectapp.api.ApiUtilities
+import com.example.gitprojectapp.data.api.ApiInterface
+import com.example.gitprojectapp.data.api.ApiUtilities
 import com.example.gitprojectapp.databinding.FragmentSpisokRepositorievBinding
-import com.example.gitprojectapp.recycler_view.MyAdapter
-import com.example.gitprojectapp.recycler_view.OnItemClickListener
-import com.example.gitprojectapp.repository.GitRepository
-import com.example.gitprojectapp.viewmodel.GitViewModel
-import com.example.gitprojectapp.viewmodel.GitViewModelFactory
+import com.example.gitprojectapp.presentation.recycler_view.MyAdapter
+import com.example.gitprojectapp.presentation.recycler_view.OnItemClickListener
+import com.example.gitprojectapp.other.repository.GitRepository
+import com.example.gitprojectapp.presentation.viewmodel.GitViewModel
+import com.example.gitprojectapp.presentation.viewmodel.GitViewModelFactory
 
 
 class SpisokRepositorievFragment : Fragment() {
@@ -28,7 +28,7 @@ class SpisokRepositorievFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         //
-        val sharedPref = context?.getSharedPreferences("myPreferences", Context.MODE_PRIVATE)
+        val sharedPref = context?.getSharedPreferences("shared_prefs", Context.MODE_PRIVATE)
         val savedString = sharedPref?.getString("token", "default")
         //
         binding = FragmentSpisokRepositorievBinding.inflate(layoutInflater)
@@ -42,7 +42,9 @@ class SpisokRepositorievFragment : Fragment() {
             val adapter = MyAdapter(it, object : OnItemClickListener {
                 override fun onItemClick(position: Int) {
                     Navigation.findNavController(view)
-                        .navigate(R.id.action_spisokRepositorievFragment_to_repositoryInfo, RepositoryInfo.createArguments(userIdKey = position))
+                        .navigate(R.id.action_spisokRepositorievFragment_to_repositoryInfo,
+                            RepositoryInfo.createArguments(userIdKey = position)
+                        )
                 }
             })
             recyclerView.adapter = adapter

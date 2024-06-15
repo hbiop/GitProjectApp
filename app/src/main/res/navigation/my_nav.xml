@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/authFragment"
-        android:name="com.example.gitprojectapp.fragments.AuthFragment"
+        android:name="com.example.gitprojectapp.presentation.fragments.AuthFragment"
         android:label="fragment_auth"
         tools:layout="@layout/fragment_auth" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/spisokRepositorievFragment"
-        android:name="com.example.gitprojectapp.fragments.SpisokRepositorievFragment"
+        android:name="com.example.gitprojectapp.presentation.fragments.SpisokRepositorievFragment"
         android:label="fragment_spisok_repositoriev"
         tools:layout="@layout/fragment_spisok_repositoriev" >
         <action
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/repositoryInfo"
-        android:name="com.example.gitprojectapp.fragments.RepositoryInfo"
+        android:name="com.example.gitprojectapp.presentation.fragments.RepositoryInfo"
         android:label="fragment_repository_info"
         tools:layout="@layout/fragment_repository_info" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.example.gitprojectapp.models
+package com.example.gitprojectapp.other.models
 
 data class RepositoryItem(
     val allow_forking: Boolean,
