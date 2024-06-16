@@ -36,10 +36,6 @@ class AuthFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //
-        val sharedPref = context?.getSharedPreferences("myPreferences", Context.MODE_PRIVATE)
-        //val editor = sharedPref?.edit()
-        //
         binding = FragmentAuthBinding.inflate(inflater,container,false);
         val view = binding.root;
         return view
@@ -47,34 +43,15 @@ class AuthFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.userList.observe(viewLifecycleOwner){
-            if (it != null){
-                binding.textView2.text = "success"
-                Toast.makeText(context, "success", Toast.LENGTH_LONG).show()
-            }
-            else{
-                binding.textView2.text = "!success"
-                Toast.makeText(activity, "!success", Toast.LENGTH_LONG).show()
-            }
-        }
         viewModel.action.observe(viewLifecycleOwner){
             when (it) {
                 is AuthViewModel.Action.ShowError -> {
-                    //Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
                 }
                 is AuthViewModel.Action.RouteToMain -> {
-                    saveTokenUseCase.execute(binding.edToken.text.toString())
+                    saveTokenUseCase.execute(viewModel.userList.value!!, binding.edToken.text.toString())
                     Navigation.findNavController(view)
                         .navigate(R.id.action_authFragment_to_spisokRepositorievFragment)
-                    //Toast.makeText(activity, "переход", Toast.LENGTH_LONG).show()
-
-                    //Navigation.findNavController(view)
-                    //.navigate(R.id.action_authFragment_to_spisokRepositorievFragment)
-                    /*
-                    * This will be called when the data fetching succeed
-                    * we can then hide the loading or error indicator
-                    * and display the data into the UI
-                    * */
                 }
             }
         }

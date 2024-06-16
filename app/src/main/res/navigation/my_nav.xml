@@ -27,5 +27,9 @@
         android:id="@+id/repositoryInfo"
         android:name="com.example.gitprojectapp.presentation.fragments.RepositoryInfo"
         android:label="fragment_repository_info"
-        tools:layout="@layout/fragment_repository_info" />
+        tools:layout="@layout/fragment_repository_info" >
+        <action
+            android:id="@+id/action_repositoryInfo_to_spisokRepositorievFragment"
+            app:destination="@id/spisokRepositorievFragment" />
+    </fragment>
 </navigation>

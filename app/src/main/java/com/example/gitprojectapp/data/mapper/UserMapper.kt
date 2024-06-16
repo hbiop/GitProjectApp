@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class UserMapper{
     fun mapFromEntity(entity: UserInfoDto): UserInfo {
-        return UserInfo(entity.id)
+        return UserInfo(entity.id, entity.login)
     }
 
     fun mapFromEntityList(entities: List<UserInfoDto>): List<UserInfo> {

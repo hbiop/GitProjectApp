@@ -45,6 +45,7 @@ kapt {
 }
 
 dependencies {
+    implementation("io.noties.markwon:core:4.6.2")
     implementation("androidx.fragment:fragment-ktx:1.7.1")
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-compiler:2.51.1")

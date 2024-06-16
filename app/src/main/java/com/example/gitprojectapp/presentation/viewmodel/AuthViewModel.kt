@@ -1,6 +1,5 @@
 package com.example.gitprojectapp.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -30,11 +29,9 @@ class AuthViewModel @Inject constructor(private val apiRepository: RepositoryApi
             delay(100)
             if(token.trim() != ""){
                 try {
-                    val s = _userList.value
-                    val id = _userList.value?.id
-                    val dfs = apiRepository.getOwner("Bearer $token")
+                    val owner = apiRepository.getOwner("Bearer $token")
                     //_userList.postValue(dfs!!)
-                    _userList.value = dfs
+                    _userList.value = owner
                     if(_userList.value == null){
                         _action.value = AuthViewModel.Action.ShowError("Авторизация прошла не успешно")
                         _state.value = AuthViewModel.State.Idle
@@ -42,9 +39,6 @@ class AuthViewModel @Inject constructor(private val apiRepository: RepositoryApi
                     else{
                         _state.value = AuthViewModel.State.Idle
                         _action.value = AuthViewModel.Action.RouteToMain
-                    }
-                    if(dfs == null){
-
                     }
                 }
                 catch (e: Error){
