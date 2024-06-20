@@ -31,5 +31,13 @@
         <action
             android:id="@+id/action_repositoryInfo_to_spisokRepositorievFragment"
             app:destination="@id/spisokRepositorievFragment" />
+        <action
+            android:id="@+id/action_repositoryInfo_to_spisokFailov"
+            app:destination="@id/spisokFailov" />
     </fragment>
+    <fragment
+        android:id="@+id/spisokFailov"
+        android:name="com.example.gitprojectapp.presentation.fragments.SpisokFailov"
+        android:label="fragment_spisok_failov"
+        tools:layout="@layout/fragment_spisok_failov" />
 </navigation>

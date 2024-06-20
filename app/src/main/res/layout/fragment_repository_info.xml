@@ -149,7 +149,11 @@
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:text="TextView" />
-
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/btnCode"
+                android:text="code"/>
         </LinearLayout>
     </ScrollView>
 

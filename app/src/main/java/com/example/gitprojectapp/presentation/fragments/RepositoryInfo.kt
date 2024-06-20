@@ -58,6 +58,13 @@ class RepositoryInfo : Fragment() {
                     binding.StarCount.text = it.githubRepo.stargazersCount.toString()
                     binding.BranchesCount.text = it.githubRepo.forksCount.toString()
                     binding.ViewersCount.text = it.githubRepo.watchersCount.toString()
+                    binding.btnCode.setOnClickListener{a ->
+                        Navigation.findNavController(view)
+                            .navigate(
+                                R.id.action_repositoryInfo_to_spisokFailov,
+                                SpisokFailov.createArguments(repositoryName = it.githubRepo.name)
+                            )
+                    }
                     markwon.setMarkdown(
                         binding.Readme,
                         String(Base64.getMimeDecoder().decode(it.markdown))

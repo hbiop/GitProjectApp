@@ -1,5 +1,6 @@
 package com.example.gitprojectapp.data.api
 
+import com.example.gitprojectapp.data.models.FileDto
 import com.example.gitprojectapp.data.models.GitRepositoryDto
 import com.example.gitprojectapp.data.models.ReadmeDto
 import com.example.gitprojectapp.data.models.UserInfoDto
@@ -28,4 +29,13 @@ interface ApiService {
         @Path("owner") owner: String,
         @Path("repo") repo: String
     ): Response<ReadmeDto>
+
+    @GET("repos/{owner}/{repo}/contents/{path}")
+    suspend fun getSpisokFilov(
+        @Header("Authorization") token: String,
+        @Path("owner") owner: String,
+        @Path("repo") repo: String,
+        @Path("path") path: String
+    ): Response<List<FileDto>>
+
 }

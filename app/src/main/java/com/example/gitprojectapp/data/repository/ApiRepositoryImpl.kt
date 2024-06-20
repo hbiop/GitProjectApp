@@ -2,6 +2,7 @@ package com.example.gitprojectapp.data.repository
 
 import androidx.lifecycle.MutableLiveData
 import com.example.gitprojectapp.data.api.ApiService
+import com.example.gitprojectapp.data.mapper.FileMapper
 import com.example.gitprojectapp.data.mapper.ReadmeMapper
 import com.example.gitprojectapp.data.mapper.RepositoryMapper
 import com.example.gitprojectapp.data.mapper.UserMapper
@@ -10,6 +11,7 @@ import com.example.gitprojectapp.data.models.UserInfoDto
 import com.example.gitprojectapp.domain.models.Readme
 import com.example.gitprojectapp.domain.models.UserInfo
 import com.example.gitprojectapp.domain.models.gitRepository
+import com.example.gitprojectapp.domain.models.mFile
 import com.example.gitprojectapp.domain.repository.RepositoryApi
 import javax.inject.Inject
 
@@ -17,7 +19,8 @@ class ApiRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
     private val userMapper: UserMapper,
     private val repositoryMapper: RepositoryMapper,
-    private val readmeMapper: ReadmeMapper
+    private val readmeMapper: ReadmeMapper,
+    private val fileMapper: FileMapper
 ) : RepositoryApi {
     override suspend fun getOwner(token: String): UserInfo? {
         val a = apiService.getUsers(token)
@@ -65,6 +68,30 @@ class ApiRepositoryImpl @Inject constructor(
             Result.failure(Exception("При загрузке произошла ошибка"))
         } else {
             Result.success(readmeMapper.mapFromEntity(response.body()!!))
+        }
+    }
+
+    override suspend fun getSpisokFilov(
+        token: String,
+        owner: String,
+        repName: String,
+        path: String
+    ): Result<List<mFile>?> {
+        val response = apiService.getSpisokFilov(
+            token = token,
+            owner = owner,
+            repo = repName,
+            path = path
+        )
+        return if (!response.isSuccessful) {
+            Result.failure(Exception("При загрузке произошла ошибка"))
+        } else {
+            if (response.body() != null) {
+                val list = response.body()
+                Result.success(fileMapper.mapFromEntityList(list!!))
+            } else {
+                Result.success(null)
+            }
         }
     }
 
