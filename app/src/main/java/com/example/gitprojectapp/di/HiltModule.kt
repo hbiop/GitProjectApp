@@ -2,15 +2,19 @@ package com.example.gitprojectapp.di
 
 import android.content.Context
 import com.example.gitprojectapp.data.api.ApiService
+import com.example.gitprojectapp.data.mapper.ReadmeMapper
+import com.example.gitprojectapp.data.mapper.RepositoryMapper
 import com.example.gitprojectapp.data.mapper.UserMapper
 import com.example.gitprojectapp.data.repository.ApiRepositoryImpl
 import com.example.gitprojectapp.data.repository.SharedPreferencesImpl
 import com.example.gitprojectapp.domain.repository.RepositoryApi
 import com.example.gitprojectapp.domain.repository.SharedPreferenceRepository
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.FragmentScoped
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -29,16 +33,22 @@ object HiltModule {
             .build()
             .create(ApiService::class.java)
     }
-    @Singleton
+
     @Provides
-    fun provideApiRepository(apiService: ApiService): RepositoryApi {
-        return ApiRepositoryImpl(apiService)
+    fun provideApiRepository(
+        apiService: ApiService,
+        userMapper: UserMapper,
+        repositoryMapper: RepositoryMapper,
+        readmeMapper: ReadmeMapper
+    ): RepositoryApi {
+        return ApiRepositoryImpl(
+            apiService = apiService,
+            userMapper = userMapper,
+            repositoryMapper = repositoryMapper,
+            readmeMapper = readmeMapper
+        )
     }
-    @Singleton
-    @Provides
-    fun provideUserMapper(): UserMapper {
-        return UserMapper()
-    }
+
     @Singleton
     @Provides
     fun provideSharedPrefsRepository(context: Context): SharedPreferenceRepository {
@@ -49,5 +59,20 @@ object HiltModule {
     @Singleton
     fun provideContext(@ApplicationContext context: Context): Context {
         return context
+    }
+
+    @Provides
+    fun provideUserMapper(): UserMapper {
+        return UserMapper()
+    }
+
+    @Provides
+    fun provideRepositoryMapper(): RepositoryMapper {
+        return RepositoryMapper()
+    }
+
+    @Provides
+    fun provideReadmeMapper(): ReadmeMapper {
+        return ReadmeMapper()
     }
 }

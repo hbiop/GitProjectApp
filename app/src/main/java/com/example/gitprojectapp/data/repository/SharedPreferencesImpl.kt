@@ -12,7 +12,8 @@ private const val TOKEN_KEY = "token"
 private const val NAME_KEY = "name"
 private const val DEFAULT_TOKEN = "token"
 
-class SharedPreferencesImpl @Inject constructor(@ApplicationContext val context: Context) : SharedPreferenceRepository {
+class SharedPreferencesImpl @Inject constructor(@ApplicationContext val context: Context) :
+    SharedPreferenceRepository {
     val sharedPrefs = context.getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
     override fun saveToken(user: UserInfo, token: String) {
         sharedPrefs.edit().putString(TOKEN_KEY, token).apply()

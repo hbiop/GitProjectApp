@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gitprojectapp.databinding.ItemBinding
 import com.example.gitprojectapp.domain.models.gitRepository
-import com.example.gitprojectapp.other.models.Repository
 
-class MyAdapter(private val data: List<gitRepository>, private val listener: OnItemClickListener) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
+class MyAdapter(private val data: List<gitRepository>, private val listener: OnItemClickListener) :
+    RecyclerView.Adapter<MyAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
@@ -16,14 +16,15 @@ class MyAdapter(private val data: List<gitRepository>, private val listener: OnI
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
-        holder.bind(item.Name)
+        holder.bind(item.name)
     }
 
     override fun getItemCount(): Int {
         return data.size
     }
 
-    inner class ViewHolder(private val binding: ItemBinding) : RecyclerView.ViewHolder(binding.root),
+    inner class ViewHolder(private val binding: ItemBinding) :
+        RecyclerView.ViewHolder(binding.root),
         View.OnClickListener {
         init {
             itemView.setOnClickListener(this)
@@ -35,7 +36,8 @@ class MyAdapter(private val data: List<gitRepository>, private val listener: OnI
                 listener.onItemClick(position)
             }
         }
-        fun bind(name: String? = "", opisanie: String? = "", language:String? = "") {
+
+        fun bind(name: String? = "", opisanie: String? = "", language: String? = "") {
             binding.textView.text = name
         }
     }

@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gitprojectapp.domain.models.gitRepository
 import com.example.gitprojectapp.domain.repository.RepositoryApi
-import com.example.gitprojectapp.other.models.Repository
+import com.example.gitprojectapp.domain.usecases.GetTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -15,26 +15,28 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class SpisokRepositoriewViewModel @Inject constructor(private val apiRepository: RepositoryApi) : ViewModel() {
+class SpisokRepositoriewViewModel @Inject constructor(private val apiRepository: RepositoryApi) :
+    ViewModel() {
     private val _state = MutableLiveData<SpisokRepositoriewViewModel.State>()
     val state: LiveData<SpisokRepositoriewViewModel.State> = _state
 
-    fun loadRepos(token: String){
+    @Inject
+    lateinit var getTokenUseCase: GetTokenUseCase
+    fun loadRepos() {
         viewModelScope.launch {
             _state.value = SpisokRepositoriewViewModel.State.Loading
-            if(token != "token"){
-                    val owner = apiRepository.getRepos("Bearer $token")
-                    if(owner.first == false){
-                        _state.value = State.Error("Произошла ошибка")
-                    }else if(owner.second == null){
-                        _state.value = State.Empty
-                    }else{
-                        _state.value = State.Loaded(owner.second!!)
-                    }
-
-            }else{
-                _state.value = State.Error("Произошла ошибка")
+            val result = apiRepository.getRepos("Bearer ${getTokenUseCase.execute()}")
+            if (result.isSuccess) {
+                if (result.getOrThrow() != null) {
+                    _state.value = SpisokRepositoriewViewModel.State.Loaded(result.getOrThrow()!!)
+                } else {
+                    _state.value = SpisokRepositoriewViewModel.State.Empty
+                }
+            } else {
+                _state.value =
+                    SpisokRepositoriewViewModel.State.Error(result.exceptionOrNull()!!.message.toString())
             }
+
         }
     }
 

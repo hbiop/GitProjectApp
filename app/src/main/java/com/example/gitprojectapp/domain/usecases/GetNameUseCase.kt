@@ -1,4 +1,4 @@
-package com.example.gitprojectapp.presentation.usecases
+package com.example.gitprojectapp.domain.usecases
 
 import com.example.gitprojectapp.domain.repository.SharedPreferenceRepository
 import javax.inject.Inject

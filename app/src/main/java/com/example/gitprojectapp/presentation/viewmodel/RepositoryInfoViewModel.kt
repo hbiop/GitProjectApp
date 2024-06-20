@@ -6,46 +6,43 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gitprojectapp.domain.models.gitRepository
 import com.example.gitprojectapp.domain.repository.RepositoryApi
-import com.example.gitprojectapp.presentation.usecases.GetNameUseCase
-import com.example.gitprojectapp.presentation.usecases.GetTokenUseCase
-import com.example.gitprojectapp.presentation.usecases.SaveTokenUseCase
+import com.example.gitprojectapp.domain.usecases.GetNameUseCase
+import com.example.gitprojectapp.domain.usecases.GetTokenUseCase
+import com.example.gitprojectapp.domain.usecases.SaveTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RepositoryInfoViewModel @Inject constructor(private val apiRepository: RepositoryApi)  : ViewModel() {
+class RepositoryInfoViewModel @Inject constructor(private val apiRepository: RepositoryApi) :
+    ViewModel() {
     private val _state = MutableLiveData<State>()
     val state: LiveData<State> = _state
     private val _readmeState = MutableLiveData<ReadmeState>()
     val readmeState: LiveData<ReadmeState> = _readmeState
+
     @Inject
     lateinit var getNameUseCase: GetNameUseCase
-    fun loadRepositoryInfo(token: String, repo: String) {
+
+    @Inject
+    lateinit var getTokenUseCase: GetTokenUseCase
+    fun loadRepositoryInfo(repo: String) {
         viewModelScope.launch {
             _state.value = State.Loading
-            val repoResponse = apiRepository.getRep(token, getNameUseCase.execute(), repo)
-            val readmeResponse = apiRepository.getReadme(token, getNameUseCase.execute(), repo)
-            if(repoResponse.first){
-                if(repoResponse.second != null){
-                    if(readmeResponse.first){
-                        if(readmeResponse.second == null){
-                            _state.value = State.Loaded(repoResponse.second!!, "")
-                        }
-                        else{
-                            _state.value = State.Loaded(repoResponse.second!!, readmeResponse!!.second!!.content)
-                        }
-                    }
-                    else{
-                        _state.value = State.Loaded(repoResponse.second!!, "")
-                    }
+            val repoResponse =
+                apiRepository.getRep("Bearer ${getTokenUseCase.execute()}", getNameUseCase.execute(), repo)
+            val readmeResponse =
+                apiRepository.getReadme("Bearer ${getTokenUseCase.execute()}", getNameUseCase.execute(), repo)
+            if (repoResponse.isSuccess) {
+                if (readmeResponse.isSuccess) {
+                    _state.value = State.Loaded(
+                        repoResponse.getOrThrow()!!, readmeResponse.getOrThrow().content
+                    )
+                } else {
+                    _state.value = State.Loaded(repoResponse.getOrThrow()!!, "")
                 }
-                else{
-                    _state.value = State.Error("Readme не был загружен")
-                }
-            }
-            else{
-                _state.value = State.Error("Ошибка загрузки")
+            } else {
+                _state.value = State.Error("Ошибка")
             }
         }
     }
@@ -55,8 +52,7 @@ class RepositoryInfoViewModel @Inject constructor(private val apiRepository: Rep
         data class Error(val error: String) : State
 
         data class Loaded(
-            val githubRepo: gitRepository,
-            val markdown: String
+            val githubRepo: gitRepository, val markdown: String
         ) : State
     }
 

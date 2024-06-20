@@ -10,21 +10,21 @@ import retrofit2.http.Path
 
 interface ApiService {
     @GET("user")
-    suspend fun getUsers(@Header("Authorization")token: String): Response<UserInfoDto>
+    suspend fun getUsers(@Header("Authorization") token: String): Response<UserInfoDto>
 
     @GET("user/repos")
-    suspend fun getRepository(@Header("Authorization")token: String): Response<List<GitRepositoryDto>>
+    suspend fun getRepository(@Header("Authorization") token: String): Response<List<GitRepositoryDto>>
 
     @GET("repos/{owner}/{repo}")
     suspend fun getRepositoryInfo(
-        @Header("Authorization")token: String,
+        @Header("Authorization") token: String,
         @Path("owner") owner: String,
         @Path("repo") repo: String
     ): Response<GitRepositoryDto>
 
     @GET("repos/{owner}/{repo}/readme")
     suspend fun getReadme(
-        @Header("Authorization")token: String,
+        @Header("Authorization") token: String,
         @Path("owner") owner: String,
         @Path("repo") repo: String
     ): Response<ReadmeDto>
