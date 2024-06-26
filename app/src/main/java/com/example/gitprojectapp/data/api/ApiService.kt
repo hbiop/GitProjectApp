@@ -1,5 +1,6 @@
 package com.example.gitprojectapp.data.api
 
+import com.example.gitprojectapp.data.models.BranchDto
 import com.example.gitprojectapp.data.models.FileDto
 import com.example.gitprojectapp.data.models.GitRepositoryDto
 import com.example.gitprojectapp.data.models.ReadmeDto
@@ -8,6 +9,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
     @GET("user")
@@ -30,12 +32,27 @@ interface ApiService {
         @Path("repo") repo: String
     ): Response<ReadmeDto>
 
-    @GET("repos/{owner}/{repo}/contents/{path}")
-    suspend fun getSpisokFilov(
+    @GET("https://api.github.com/repos/{owner}/{repo}/contents/{path}")
+    suspend fun getListFailov(
         @Header("Authorization") token: String,
         @Path("owner") owner: String,
         @Path("repo") repo: String,
-        @Path("path") path: String
+        @Path("path") path: String,
+        @Query("ref") branch: String
     ): Response<List<FileDto>>
+    @GET("https://api.github.com/repos/{owner}/{repo}/contents/{path}")
+    suspend fun getFile(
+        @Header("Authorization") token: String,
+        @Path("owner") owner: String,
+        @Path("repo") repo: String,
+        @Path("path") path: String,
+        @Query("ref") branch: String
+    ): Response<FileDto>
+    @GET("repos/{owner}/{repo}/branches")
+    suspend fun getListBranches(
+        @Header("Authorization") token: String,
+        @Path("owner") owner: String,
+        @Path("repo") repo: String,
+    ): Response<List<BranchDto>>
 
 }

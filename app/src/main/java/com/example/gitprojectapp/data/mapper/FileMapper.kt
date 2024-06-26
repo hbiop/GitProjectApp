@@ -7,7 +7,7 @@ import com.example.gitprojectapp.domain.models.mFile
 
 class FileMapper {
     fun mapFromEntity(entity: FileDto): mFile {
-        return mFile(entity.name, entity.path, entity.type)
+        return mFile(entity.name, entity.path, entity.type, entity.content)
     }
 
     fun mapFromEntityList(entities: List<FileDto>): List<mFile> {

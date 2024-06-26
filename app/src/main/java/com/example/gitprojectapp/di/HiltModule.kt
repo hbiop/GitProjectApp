@@ -2,6 +2,7 @@ package com.example.gitprojectapp.di
 
 import android.content.Context
 import com.example.gitprojectapp.data.api.ApiService
+import com.example.gitprojectapp.data.mapper.BranchMapper
 import com.example.gitprojectapp.data.mapper.FileMapper
 import com.example.gitprojectapp.data.mapper.ReadmeMapper
 import com.example.gitprojectapp.data.mapper.RepositoryMapper
@@ -41,14 +42,16 @@ object HiltModule {
         userMapper: UserMapper,
         repositoryMapper: RepositoryMapper,
         readmeMapper: ReadmeMapper,
-        fileMapper: FileMapper
+        fileMapper: FileMapper,
+        branchMapper: BranchMapper
     ): RepositoryApi {
         return ApiRepositoryImpl(
             apiService = apiService,
             userMapper = userMapper,
             repositoryMapper = repositoryMapper,
             readmeMapper = readmeMapper,
-            fileMapper = fileMapper
+            fileMapper = fileMapper,
+            branchMapper = branchMapper
         )
     }
 
@@ -67,6 +70,11 @@ object HiltModule {
     @Provides
     fun provideUserMapper(): UserMapper {
         return UserMapper()
+    }
+
+    @Provides
+    fun provideBranchMapper(): BranchMapper {
+        return BranchMapper()
     }
 
     @Provides

@@ -39,5 +39,14 @@
         android:id="@+id/spisokFailov"
         android:name="com.example.gitprojectapp.presentation.fragments.SpisokFailov"
         android:label="fragment_spisok_failov"
-        tools:layout="@layout/fragment_spisok_failov" />
+        tools:layout="@layout/fragment_spisok_failov" >
+        <action
+            android:id="@+id/action_spisokFailov_to_fileReadFragment"
+            app:destination="@id/fileReadFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fileReadFragment"
+        android:name="com.example.gitprojectapp.presentation.fragments.FileReadFragment"
+        android:label="fragment_file_read"
+        tools:layout="@layout/fragment_file_read" />
 </navigation>
