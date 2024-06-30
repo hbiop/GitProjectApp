@@ -7,4 +7,6 @@ interface SharedPreferenceRepository {
     fun getToken(): String
     fun getName(): String
 
+    fun clearSharedPreferences()
+
 }

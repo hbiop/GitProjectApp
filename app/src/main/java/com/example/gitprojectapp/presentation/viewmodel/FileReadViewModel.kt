@@ -24,6 +24,7 @@ class FileReadViewModel @Inject constructor(private val apiRepository: Repositor
     lateinit var getNameUseCase: GetNameUseCase
 
     fun loadFiles(repName: String, branchName: String, path: String) {
+
         viewModelScope.launch {
             _state.value = State.Loading
             val result = apiRepository.getFile(

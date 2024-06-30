@@ -1,5 +1,6 @@
 package com.example.gitprojectapp.data.repository
 
+import android.util.Log
 import com.example.gitprojectapp.data.api.ApiService
 import com.example.gitprojectapp.data.mapper.BranchMapper
 import com.example.gitprojectapp.data.mapper.FileMapper
@@ -23,40 +24,61 @@ class ApiRepositoryImpl @Inject constructor(
     private val fileMapper: FileMapper,
     private val branchMapper: BranchMapper
 ) : RepositoryApi {
-    override suspend fun getOwner(token: String): UserInfo? {
-        val a = apiService.getUsers(token)
-        return if (a.body() != null) {
-            userMapper.mapFromEntity(UserInfoDto(a.body()!!.id, a.body()!!.login))
-        } else {
-            null
+    override suspend fun getOwner(token: String): Result<UserInfo?> {
+        try {
+            val response = apiService.getUsers(token)
+            return if (!response.isSuccessful) {
+                Result.failure(Exception("При загрузке произошла ошибка"))
+            } else {
+                val a = response.body()
+                if (a != null) {
+                    Result.success(userMapper.mapFromEntity(response.body()!!))
+                } else {
+                   Result.success(null)
+                }
+            }
+        }catch (e:Exception){
+            return Result.failure(Exception("При загрузке произошла ошибка"))
         }
+
+
     }
 
     override suspend fun getRepos(token: String): Result<List<gitRepository>?> {
-        val response = apiService.getRepository(token)
-        return if (!response.isSuccessful) {
-            Result.failure(Exception("При загрузке произошла ошибка"))
-        } else {
-            if (response.body() != null) {
-                val list = response.body()
-                Result.success(repositoryMapper.mapFromEntityList(list!!))
+        try {
+            val response = apiService.getRepository(token)
+            return if (!response.isSuccessful) {
+                Result.failure(Exception("При загрузке произошла ошибка"))
             } else {
-                Result.success(null)
+                if (response.body() != null) {
+                    val list = response.body()
+                    Result.success(repositoryMapper.mapFromEntityList(list!!))
+                } else {
+                    Result.success(null)
+                }
             }
         }
-    }
+        catch (e: Exception){
+            return Result.failure(Exception("При загрузке произошла ошибка"))
+        }
 
+    }
     override suspend fun getRep(
         token: String,
         owner: String,
         repName: String
     ): Result<gitRepository?> {
-        val response = apiService.getRepositoryInfo(token, owner, repName)
-        return if (!response.isSuccessful) {
+        return try {
+            val response = apiService.getRepositoryInfo(token, owner, repName)
+            if (!response.isSuccessful) {
+                Result.failure(Exception("При загрузке произошла ошибка"))
+            } else {
+                Result.success(repositoryMapper.mapFromEntity(response.body()!!))
+            }
+        }catch (e:Exception){
             Result.failure(Exception("При загрузке произошла ошибка"))
-        } else {
-            Result.success(repositoryMapper.mapFromEntity(response.body()!!))
         }
+
     }
 
     override suspend fun getReadme(
@@ -64,12 +86,17 @@ class ApiRepositoryImpl @Inject constructor(
         owner: String,
         repName: String
     ): Result<Readme> {
-        val response = apiService.getReadme(token, owner, repName)
-        return if (!response.isSuccessful) {
+        return try {
+            val response = apiService.getReadme(token, owner, repName)
+            if (!response.isSuccessful) {
+                Result.failure(Exception("При загрузке произошла ошибка"))
+            } else {
+                Result.success(readmeMapper.mapFromEntity(response.body()!!))
+            }
+        }catch (e:Exception){
             Result.failure(Exception("При загрузке произошла ошибка"))
-        } else {
-            Result.success(readmeMapper.mapFromEntity(response.body()!!))
         }
+
     }
 
     override suspend fun getSpisokFilov(
@@ -79,23 +106,28 @@ class ApiRepositoryImpl @Inject constructor(
         path: String,
         branchName: String
     ): Result<List<mFile>?> {
-        val response = apiService.getListFailov(
-            token = token,
-            owner = owner,
-            repo = repName,
-            path = path,
-            branch = branchName
-        )
-        return if (!response.isSuccessful) {
-            Result.failure(Exception("При загрузке произошла ошибка"))
-        } else {
-            if (response.body() != null) {
-                val list = response.body()
-                Result.success(fileMapper.mapFromEntityList(list!!))
+        try {
+            val response = apiService.getListFailov(
+                token = token,
+                owner = owner,
+                repo = repName,
+                path = path,
+                branch = branchName
+            )
+            return if (!response.isSuccessful) {
+                Result.failure(Exception("При загрузке произошла ошибка"))
             } else {
-                Result.success(null)
+                if (response.body() != null) {
+                    val list = response.body()
+                    Result.success(fileMapper.mapFromEntityList(list!!))
+                } else {
+                    Result.success(null)
+                }
             }
+        }catch (e:Exception){
+            return Result.failure(Exception("При загрузке произошла ошибка"))
         }
+
     }
 
     override suspend fun getListBranches(
@@ -103,18 +135,24 @@ class ApiRepositoryImpl @Inject constructor(
         owner: String,
         repName: String
     ): Result<List<Branch>?> {
-        val response = apiService.getListBranches(token,owner,repName)
-        return if(!response.isSuccessful){
-            Result.failure(Exception("При загрузке произошла ошибка"))
-        }
-        else{
-            if (response.body() != null) {
-                val list = response.body()
-                Result.success(branchMapper.mapFromEntityList(list!!))
-            } else {
-                Result.success(null)
+        try {
+            val response = apiService.getListBranches(token,owner,repName)
+            return if(!response.isSuccessful){
+                Result.failure(Exception("При загрузке произошла ошибка"))
+            }
+            else{
+                if (response.body() != null) {
+                    val list = response.body()
+                    Result.success(branchMapper.mapFromEntityList(list!!))
+                } else {
+                    Result.success(null)
+                }
             }
         }
+        catch (e:Exception){
+            return Result.failure(Exception("При загрузке произошла ошибка"))
+        }
+
     }
 
     override suspend fun getFile(
@@ -124,23 +162,28 @@ class ApiRepositoryImpl @Inject constructor(
         path: String,
         branchName: String
     ): Result<mFile?> {
-        val response = apiService.getFile(
-            token = token,
-            owner = owner,
-            repo = repName,
-            path = path,
-            branch = branchName
-        )
-        return if (!response.isSuccessful) {
-            Result.failure(Exception("При загрузке произошла ошибка"))
-        } else {
-            if (response.body() != null) {
-                val list = response.body()
-                Result.success(fileMapper.mapFromEntity(list!!))
+        try {
+            val response = apiService.getFile(
+                token = token,
+                owner = owner,
+                repo = repName,
+                path = path,
+                branch = branchName
+            )
+            return if (!response.isSuccessful) {
+                Result.failure(Exception("При загрузке произошла ошибка"))
             } else {
-                Result.success(null)
+                if (response.body() != null) {
+                    val list = response.body()
+                    Result.success(fileMapper.mapFromEntity(list!!))
+                } else {
+                    Result.success(null)
+                }
             }
+        }catch (e:Exception){
+            return Result.failure(Exception("При загрузке произошла ошибка"))
         }
+
     }
 
 }

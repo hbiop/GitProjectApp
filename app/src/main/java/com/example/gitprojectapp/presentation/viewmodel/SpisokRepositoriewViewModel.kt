@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gitprojectapp.domain.models.gitRepository
 import com.example.gitprojectapp.domain.repository.RepositoryApi
+import com.example.gitprojectapp.domain.usecases.ClearSharedPreferencesUseCase
 import com.example.gitprojectapp.domain.usecases.GetTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -22,10 +23,17 @@ class SpisokRepositoriewViewModel @Inject constructor(private val apiRepository:
 
     @Inject
     lateinit var getTokenUseCase: GetTokenUseCase
+    @Inject
+    lateinit var clearSharedPreferencesUseCase: ClearSharedPreferencesUseCase
+
+    fun clearSharedPrefs(){
+        clearSharedPreferencesUseCase.execute()
+    }
     fun loadRepos() {
         viewModelScope.launch {
             _state.value = SpisokRepositoriewViewModel.State.Loading
-            val result = apiRepository.getRepos("Bearer ${getTokenUseCase.execute()}")
+            val a = getTokenUseCase.execute()
+            val result = apiRepository.getRepos("Bearer ${a}")
             if (result.isSuccess) {
                 if (result.getOrThrow() != null) {
                     _state.value = SpisokRepositoriewViewModel.State.Loaded(result.getOrThrow()!!)

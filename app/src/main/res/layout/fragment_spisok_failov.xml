@@ -6,13 +6,33 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".presentation.fragments.SpisokFailov">
-
-    <ImageButton
-        android:id="@+id/imageButton"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:src="@drawable/arrow_left" />
+        android:background="@color/transperent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/transperent"
+                android:src="@drawable/arrow_left" />
+            <TextView
+                android:id="@+id/RepositoryName"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:text="Files" />
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="match_parent"

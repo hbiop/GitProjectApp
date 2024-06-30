@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import com.example.gitprojectapp.databinding.FragmentFileReadBinding
 import com.example.gitprojectapp.presentation.viewmodel.FileReadViewModel
 import com.example.gitprojectapp.presentation.viewmodel.RepositoryInfoViewModel
@@ -45,18 +46,22 @@ class FileReadFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.btnBack.setOnClickListener {
+            Navigation.findNavController(view).popBackStack()
+        }
         viewModel.state.observe(viewLifecycleOwner){
             when(it){
                 FileReadViewModel.State.Empty -> {
                     Toast.makeText(context, "Пусто", Toast.LENGTH_LONG).show()
                 }
                 is FileReadViewModel.State.Error -> {
-                    Toast.makeText(context, "Error", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, it.error, Toast.LENGTH_LONG).show()
                 }
                 is FileReadViewModel.State.Loaded -> {
                     binding.codeViewer.setText(String(java.util.Base64.getMimeDecoder().decode(it.repos.content)))
                 }
-                FileReadViewModel.State.Loading ->{}
+                FileReadViewModel.State.Loading ->{
+                }
             }
         }
     }

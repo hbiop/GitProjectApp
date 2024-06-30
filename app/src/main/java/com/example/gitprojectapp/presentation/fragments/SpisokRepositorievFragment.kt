@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gitprojectapp.R
@@ -24,6 +25,8 @@ class SpisokRepositorievFragment : Fragment() {
     lateinit var recyclerView: RecyclerView
     val viewModel: SpisokRepositoriewViewModel by viewModels()
     lateinit var binding: FragmentSpisokRepositorievBinding
+    @Inject
+    lateinit var getTokenUseCase: GetTokenUseCase
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,6 +41,11 @@ class SpisokRepositorievFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.btnHome.setOnClickListener{
+            val navController = findNavController()
+            viewModel.clearSharedPrefs()
+            navController.navigate(R.id.action_spisokRepositorievFragment_to_authFragment)
+        }
         viewModel.state.observe(viewLifecycleOwner) {
             when (it) {
                 is SpisokRepositoriewViewModel.State.Error -> {
@@ -49,7 +57,6 @@ class SpisokRepositorievFragment : Fragment() {
                 }
 
                 is SpisokRepositoriewViewModel.State.Loading -> {
-                    Toast.makeText(context, "Загрузка", Toast.LENGTH_LONG).show()
                 }
 
                 is SpisokRepositoriewViewModel.State.Loaded -> {

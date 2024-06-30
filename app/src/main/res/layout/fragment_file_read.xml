@@ -5,30 +5,39 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".presentation.fragments.FileReadFragment">
-
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transperent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/transperent"
+                android:src="@drawable/arrow_left" />
+            <TextView
+                android:id="@+id/RepositoryName"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                />
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
     <EditText
         android:id="@+id/code_viewer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:inputType="textMultiLine"
         android:layout_weight="1"
+        android:gravity="top"
         android:text=""/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1">
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1" />
-        <Button
-            android:id="@+id/button"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.1"
-            android:text="commit channges" />
-
-    </LinearLayout>
-
 </LinearLayout>

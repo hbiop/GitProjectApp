@@ -33,18 +33,15 @@ class RepositoryInfo : Fragment() {
     ): View? {
         markwon = Markwon.create(requireContext())
         binding = FragmentRepositoryInfoBinding.inflate(layoutInflater)
-        binding.btnBack.setOnClickListener {
-            Navigation.findNavController(it)
-                .navigate(
-                    R.id.action_repositoryInfo_to_spisokRepositorievFragment
-                )
-        }
         val view = binding.root;
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.btnBack.setOnClickListener {
+            Navigation.findNavController(view).popBackStack()
+        }
         viewModel.state.observe(viewLifecycleOwner) {
             when (it) {
                 is RepositoryInfoViewModel.State.Error -> {
@@ -52,12 +49,14 @@ class RepositoryInfo : Fragment() {
                 }
 
                 is RepositoryInfoViewModel.State.Loaded -> {
+                    binding.btnCode.isEnabled = true
+                    binding.btnBack.isEnabled = true
                     binding.RepositoryName.text = it.githubRepo.name
                     binding.link.text = it.githubRepo.url
                     binding.LicenseName.text = it.githubRepo.license
-                    binding.StarCount.text = it.githubRepo.stargazersCount.toString()
-                    binding.BranchesCount.text = it.githubRepo.forksCount.toString()
-                    binding.ViewersCount.text = it.githubRepo.watchersCount.toString()
+                    binding.StarCount.text = "stargazers ${it.githubRepo.stargazersCount.toString()}"
+                    binding.BranchesCount.text = "forks ${it.githubRepo.forksCount.toString()}"
+                    binding.ViewersCount.text = "watchers ${it.githubRepo.watchersCount.toString()}"
                     binding.btnCode.setOnClickListener{a ->
                         Navigation.findNavController(view)
                             .navigate(
@@ -72,7 +71,7 @@ class RepositoryInfo : Fragment() {
                 }
 
                 RepositoryInfoViewModel.State.Loading -> {
-                    Toast.makeText(context, "Загрузка", Toast.LENGTH_LONG).show()
+                    binding.btnCode.isEnabled = false
                 }
             }
         }

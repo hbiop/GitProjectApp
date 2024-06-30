@@ -28,4 +28,8 @@ class SharedPreferencesImpl @Inject constructor(@ApplicationContext val context:
     override fun getName(): String {
         return sharedPrefs.getString(NAME_KEY, DEFAULT_TOKEN) ?: DEFAULT_TOKEN
     }
+
+    override fun clearSharedPreferences() {
+        sharedPrefs.edit().clear().apply()
+    }
 }

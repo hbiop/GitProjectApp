@@ -13,7 +13,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_dark">
+        android:background="@color/transperent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -34,13 +34,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="10"
                 android:text="@string/hello_blank_fragment" />
-            <ImageButton
-                android:id="@+id/btnHome"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/transperent"
-                android:src="@drawable/home_1" />
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
     <ScrollView
@@ -153,6 +146,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/btnCode"
+                android:backgroundTint="#5C6BBF"
+
                 android:text="code"/>
         </LinearLayout>
     </ScrollView>

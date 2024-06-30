@@ -41,6 +41,8 @@ class SpisokFailovViewModel @Inject constructor(private val apiRepository: Repos
         if(listPath.size!=1){
             listPath.removeAt(listPath.size - 1)
             currentPath.value = listPath[listPath.size - 1]
+        }else{
+            _state.value = SpisokFailovViewModel.State.NavigateBack
         }
     }
     fun loadBranches(repName:String){
@@ -93,6 +95,7 @@ class SpisokFailovViewModel @Inject constructor(private val apiRepository: Repos
         data class Loaded(val repos: List<mFile>) : State
         data class Error(val error: String) : State
         object Empty : State
+        object NavigateBack : State
     }
     sealed interface BranchState {
         object Loading : BranchState

@@ -59,7 +59,6 @@ class SpisokFailov : Fragment() {
                     Toast.makeText(context, it.error,Toast.LENGTH_LONG).show()
                 }
                 is SpisokFailovViewModel.BranchState.Loaded -> {
-                    binding.imageButton.isEnabled = true
                     val adapter = CustomAdapter(requireContext(), it.branches)
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     binding.spinner.adapter = adapter
@@ -80,7 +79,7 @@ class SpisokFailov : Fragment() {
 
                 }
                 SpisokFailovViewModel.BranchState.Loading -> {
-                    binding.imageButton.isEnabled = false
+                    binding.btnBack.isEnabled = false
                 }
             }
         }
@@ -93,6 +92,7 @@ class SpisokFailov : Fragment() {
                     Toast.makeText(context, it.error,Toast.LENGTH_LONG).show()
                 }
                 is SpisokFailovViewModel.State.Loaded -> {
+                    binding.btnBack.isEnabled = true
                     val adapter = FileListAdapter(it.repos, object : OnItemClickListener {
                         override fun onItemClick(position: Int) {
                             try {
@@ -119,11 +119,15 @@ class SpisokFailov : Fragment() {
                     recyclerView.adapter = adapter
                 }
                 SpisokFailovViewModel.State.Loading -> {
-                    Toast.makeText(context, "Загрузка",Toast.LENGTH_LONG).show()
+                    binding.btnBack.isEnabled = false
+                }
+
+                SpisokFailovViewModel.State.NavigateBack -> {
+                    Navigation.findNavController(view).popBackStack()
                 }
             }
         }
-        binding.imageButton.setOnClickListener{
+        binding.btnBack.setOnClickListener{
             viewModel.goBack()
             val selectedItem = binding.spinner.selectedItem as Branch
             viewModel.loadFiles(repositoryName, selectedItem.name)
